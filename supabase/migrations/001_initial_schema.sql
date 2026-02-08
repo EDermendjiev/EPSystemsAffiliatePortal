@@ -226,41 +226,7 @@ CREATE POLICY "Admins can manage all conversions"
 CREATE INDEX idx_conversions_link ON public.conversions(referral_link_id);
 
 -- ============================================
--- 6. Commissions
--- ============================================
-CREATE TABLE IF NOT EXISTS public.commissions (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  affiliate_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
-  conversion_id UUID NOT NULL REFERENCES public.conversions(id),
-  tier TEXT NOT NULL DEFAULT 'starter',
-  rate NUMERIC(5,2) NOT NULL,
-  amount NUMERIC(12,2) NOT NULL,
-  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected', 'paid')),
-  payout_id UUID REFERENCES public.payouts(id),
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-ALTER TABLE public.commissions ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Affiliates can read own commissions"
-  ON public.commissions FOR SELECT
-  USING (auth.uid() = affiliate_id);
-
-CREATE POLICY "Admins can manage all commissions"
-  ON public.commissions FOR ALL
-  USING (
-    EXISTS (
-      SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin'
-    )
-  );
-
-CREATE INDEX idx_commissions_affiliate ON public.commissions(affiliate_id);
-CREATE INDEX idx_commissions_status ON public.commissions(status);
-CREATE INDEX idx_commissions_payout ON public.commissions(payout_id);
-
--- ============================================
--- 7. Payouts
+-- 6. Payouts (before Commissions due to FK dependency)
 -- ============================================
 CREATE TABLE IF NOT EXISTS public.payouts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -294,6 +260,40 @@ CREATE POLICY "Admins can manage all payouts"
 
 CREATE INDEX idx_payouts_affiliate ON public.payouts(affiliate_id);
 CREATE INDEX idx_payouts_status ON public.payouts(status);
+
+-- ============================================
+-- 7. Commissions
+-- ============================================
+CREATE TABLE IF NOT EXISTS public.commissions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  affiliate_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+  conversion_id UUID NOT NULL REFERENCES public.conversions(id),
+  tier TEXT NOT NULL DEFAULT 'starter',
+  rate NUMERIC(5,2) NOT NULL,
+  amount NUMERIC(12,2) NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected', 'paid')),
+  payout_id UUID REFERENCES public.payouts(id),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+ALTER TABLE public.commissions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Affiliates can read own commissions"
+  ON public.commissions FOR SELECT
+  USING (auth.uid() = affiliate_id);
+
+CREATE POLICY "Admins can manage all commissions"
+  ON public.commissions FOR ALL
+  USING (
+    EXISTS (
+      SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'admin'
+    )
+  );
+
+CREATE INDEX idx_commissions_affiliate ON public.commissions(affiliate_id);
+CREATE INDEX idx_commissions_status ON public.commissions(status);
+CREATE INDEX idx_commissions_payout ON public.commissions(payout_id);
 
 -- ============================================
 -- 8. Marketing Materials
