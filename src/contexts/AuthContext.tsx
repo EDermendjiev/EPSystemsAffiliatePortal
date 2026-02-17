@@ -91,7 +91,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (isDemoMode) {
-      // Demo mode: don't auto-login, let the login page handle profile selection
       setLoading(false);
       return;
     }
@@ -104,16 +103,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         fetchProfile(session.user.id);
       }
       setLoading(false);
+    }).catch(() => {
+      setLoading(false);
     });
 
-    // Listen for auth changes
+    // Listen for auth changes — do NOT await fetchProfile here,
+    // as it can block getSession() resolution in the Supabase client.
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
-        await fetchProfile(session.user.id);
+        fetchProfile(session.user.id).catch(() => {});
       } else {
         setProfile(null);
       }
