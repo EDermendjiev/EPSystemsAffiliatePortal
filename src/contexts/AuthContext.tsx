@@ -15,7 +15,7 @@ interface AuthContextValue {
   profile: Profile | null;
   session: Session | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<Profile | null>;
   signInWithMagicLink: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
@@ -80,13 +80,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const isDemoMode = !isSupabaseConfigured();
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = async (userId: string): Promise<Profile | null> => {
     const { data } = await supabase
       .from("profiles")
       .select("*")
       .eq("id", userId)
       .single();
     if (data) setProfile(data);
+    return data;
   };
 
   useEffect(() => {
@@ -125,18 +126,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = async (email: string, password: string): Promise<Profile | null> => {
     if (isDemoMode) {
       const demoProfile = getDemoProfile();
       setProfile(demoProfile);
       setUser(getDemoUser(demoProfile));
-      return;
+      return demoProfile;
     }
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error, data } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     if (error) throw error;
+    if (data.user) {
+      return await fetchProfile(data.user.id);
+    }
+    return null;
   };
 
   const signInWithMagicLink = async (email: string) => {

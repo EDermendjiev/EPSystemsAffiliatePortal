@@ -46,6 +46,8 @@ Supabase Auth with email/password and magic link login. `useAuth()` hook provide
 
 **Demo mode**: When `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` are not set, the app runs with mock data. Demo role stored in localStorage under `ep-demo-role`, switchable via `switchDemoRole()`.
 
+**Important**: The `onAuthStateChange` callback must NOT `await` async operations (like `fetchProfile`), as this blocks `getSession()` resolution in the Supabase client and causes the app to hang on the loading screen. Use fire-and-forget pattern instead.
+
 ### i18n (`src/i18n/`)
 
 Bulgarian (`bg`) and English (`en`). `LanguageContext` provides a `t()` function that looks up keys from `translations.ts`. All user-facing strings should use this system.
@@ -54,13 +56,21 @@ Bulgarian (`bg`) and English (`en`). `LanguageContext` provides a `t()` function
 
 Key tables: `profiles`, `affiliate_applications`, `referral_links`, `clicks`, `conversions`, `commissions`, `payouts`, `marketing_materials`, `admin_settings`. All tables have Row Level Security policies. A trigger auto-creates a profile on Supabase auth signup.
 
+**RLS caveat**: Admin RLS policies on the `profiles` table use a `SECURITY DEFINER` function `is_admin(user_id)` to avoid infinite recursion. Do not write RLS policies on `profiles` that subquery `profiles` directly — always use `public.is_admin(auth.uid())` instead.
+
 Commission tiers (configurable in `admin_settings`): Starter 10% (0–4 referrals), Professional 15% (5+), Elite 20% (15+). Commissions are **one-time** (paid on the referred client's first payment only). Currency is EUR.
+
+### Dashboard Design
+
+The two dashboards serve different purposes:
+- **Affiliate dashboard** (`src/pages/affiliate/Dashboard.tsx`) — performance-oriented ("how am I doing?"). Shows personal clicks, conversions, revenue, pending payout, 30-day area chart, commission tier progress, and recent referrals.
+- **Admin dashboard** (`src/pages/admin/AdminDashboard.tsx`) — action-oriented ("what needs my attention?"). Layout: stats cards (totals + pending queues), pending actions widget (links to applications/commissions/payouts needing review), 6-month revenue bar chart + tier distribution donut chart, recent activity feed + top performers leaderboard.
 
 ### Component Organization
 
 - `src/components/ui/` — shadcn/ui primitives (do not edit manually; regenerate with shadcn CLI)
 - `src/components/layout/` — DashboardLayout, Header, Sidebar, MobileSidebar
-- `src/components/dashboard/` — StatsCard, RevenueChart, RecentReferrals, CommissionTierCard
+- `src/components/dashboard/` — StatsCard, RevenueChart, RecentReferrals, CommissionTierCard (affiliate); AdminRevenueChart, PendingActionsCard, TierDistributionChart, RecentActivityFeed (admin)
 - `src/components/auth/` — ProtectedRoute
 - `src/pages/affiliate/` and `src/pages/admin/` — page-level components
 - `src/lib/supabase.ts` — Supabase client + `isSupabaseConfigured()` helper

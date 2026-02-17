@@ -31,8 +31,8 @@ export default function Login() {
     setError("");
     setLoading(true);
     try {
-      await signIn(email, password);
-      navigate("/dashboard");
+      const p = await signIn(email, password);
+      navigate(p?.role === "admin" ? "/admin" : "/dashboard");
     } catch (err: any) {
       setError(err.message || t.auth.loginError[lang]);
     } finally {
