@@ -3,10 +3,10 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { CreditCard, Check, Clock, DollarSign } from "lucide-react";
 
 const DEMO_PAYOUTS = [
-  { id: "1", affiliate: "Georgi R.", amount: 840.00, payment_method: "PayPal", status: "pending", created_at: "2025-02-01" },
-  { id: "2", affiliate: "Ivan D.", amount: 524.00, payment_method: "Bank Transfer", status: "processing", created_at: "2025-01-30" },
-  { id: "3", affiliate: "Maria M.", amount: 312.00, payment_method: "PayPal", status: "completed", transaction_id: "TXN-2025-001", created_at: "2025-01-15" },
-  { id: "4", affiliate: "Alex K.", amount: 160.00, payment_method: "PayPal", status: "completed", transaction_id: "TXN-2025-002", created_at: "2024-12-15" },
+  { id: "1", affiliate: "Georgi R.", amount: 840.00, payment_method: "SEPA", status: "pending", created_at: "2025-02-01" },
+  { id: "2", affiliate: "Ivan D.", amount: 524.00, payment_method: "Revolut", status: "processing", created_at: "2025-01-30" },
+  { id: "3", affiliate: "Maria M.", amount: 312.00, payment_method: "EasyPay", status: "completed", transaction_id: "TXN-2025-001", created_at: "2025-01-15" },
+  { id: "4", affiliate: "Alex K.", amount: 160.00, payment_method: "SEPA", status: "completed", transaction_id: "TXN-2025-002", created_at: "2024-12-15" },
 ];
 
 const statusStyles = {
@@ -34,7 +34,7 @@ export default function AdminPayouts() {
           <Clock className="w-5 h-5 text-yellow-500" />
           <div>
             <p className="text-xs text-muted-foreground">{t.admin.pendingPayouts[lang]}</p>
-            <p className="text-lg font-bold">${totalPending.toFixed(2)}</p>
+            <p className="text-lg font-bold">&euro;{totalPending.toFixed(2)}</p>
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@ export default function AdminPayouts() {
               {DEMO_PAYOUTS.map((payout) => (
                 <tr key={payout.id} className="border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors">
                   <td className="p-4 text-sm font-medium">{payout.affiliate}</td>
-                  <td className="p-4 text-sm font-semibold">${payout.amount.toFixed(2)}</td>
+                  <td className="p-4 text-sm font-semibold">&euro;{payout.amount.toFixed(2)}</td>
                   <td className="p-4 text-sm">
                     <div className="flex items-center gap-2">
                       <CreditCard className="w-4 h-4 text-muted-foreground" />

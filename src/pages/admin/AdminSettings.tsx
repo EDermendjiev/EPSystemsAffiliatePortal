@@ -10,12 +10,11 @@ export default function AdminSettings() {
   const [cookieDuration, setCookieDuration] = useState("90");
   const [minPayout, setMinPayout] = useState("50");
   const [payoutDay, setPayoutDay] = useState("15");
-  const [starterRate, setStarterRate] = useState("20");
-  const [proRate, setProRate] = useState("30");
-  const [eliteRate, setEliteRate] = useState("30");
-  const [eliteBonus, setEliteBonus] = useState("5");
+  const [starterRate, setStarterRate] = useState("10");
+  const [proRate, setProRate] = useState("15");
+  const [eliteRate, setEliteRate] = useState("20");
   const [proThreshold, setProThreshold] = useState("5");
-  const [eliteThreshold, setEliteThreshold] = useState("20");
+  const [eliteThreshold, setEliteThreshold] = useState("15");
 
   const handleSave = () => {
     setSaved(true);
@@ -48,7 +47,7 @@ export default function AdminSettings() {
           <div className="space-y-2">
             <label className="text-sm font-medium">{t.admin.minPayoutThreshold[lang]}</label>
             <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">$</span>
+              <span className="text-sm text-muted-foreground">&euro;</span>
               <input
                 type="number"
                 value={minPayout}
@@ -95,10 +94,10 @@ export default function AdminSettings() {
             </div>
           </div>
 
-          {/* Pro */}
+          {/* Professional */}
           <div className="grid gap-4 md:grid-cols-3 p-4 bg-accent/5 rounded-lg border border-accent/20">
             <div>
-              <p className="text-sm font-semibold text-accent mb-3">Pro</p>
+              <p className="text-sm font-semibold text-accent mb-3">Professional</p>
               <label className="text-xs text-muted-foreground">{t.admin.commissionRate[lang]}</label>
               <div className="flex items-center gap-1 mt-1">
                 <input type="number" value={proRate} onChange={(e) => setProRate(e.target.value)} className="w-20 px-3 py-2 bg-background border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
@@ -121,9 +120,7 @@ export default function AdminSettings() {
               <label className="text-xs text-muted-foreground">{t.admin.commissionRate[lang]}</label>
               <div className="flex items-center gap-1 mt-1">
                 <input type="number" value={eliteRate} onChange={(e) => setEliteRate(e.target.value)} className="w-20 px-3 py-2 bg-background border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
-                <span className="text-sm">% +</span>
-                <input type="number" value={eliteBonus} onChange={(e) => setEliteBonus(e.target.value)} className="w-20 px-3 py-2 bg-background border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
-                <span className="text-sm">% bonus</span>
+                <span className="text-sm">%</span>
               </div>
             </div>
             <div>

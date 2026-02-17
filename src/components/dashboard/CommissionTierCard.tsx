@@ -15,9 +15,9 @@ export function CommissionTierCard({
   const { lang, t } = useLanguage();
 
   const tiers = {
-    starter: { name: t.dashboard.tierStarter[lang], rate: "20%", color: "text-blue-500" },
-    pro: { name: t.dashboard.tierPro[lang], rate: "30%", color: "text-accent" },
-    elite: { name: t.dashboard.tierElite[lang], rate: "30% + Bonus", color: "text-yellow-500" },
+    starter: { name: t.dashboard.tierStarter[lang], rate: "10%", color: "text-blue-500" },
+    pro: { name: t.dashboard.tierPro[lang], rate: "15%", color: "text-accent" },
+    elite: { name: t.dashboard.tierElite[lang], rate: "20%", color: "text-yellow-500" },
   };
 
   const tier = tiers[currentTier];

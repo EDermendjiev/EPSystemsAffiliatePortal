@@ -53,7 +53,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
           <YAxis
             tick={{ fontSize: 12, fill: "hsl(220 10% 46%)" }}
             axisLine={{ stroke: "hsl(220 15% 88%)" }}
-            tickFormatter={(value) => `$${value}`}
+            tickFormatter={(value) => `\u20AC${value}`}
           />
           <Tooltip
             contentStyle={{
@@ -62,7 +62,7 @@ export function RevenueChart({ data }: RevenueChartProps) {
               borderRadius: "0.75rem",
               fontSize: "14px",
             }}
-            formatter={(value: number) => [`$${value}`, t.dashboard.revenue[lang]]}
+            formatter={(value: number) => [`\u20AC${value}`, t.dashboard.revenue[lang]]}
           />
           <Area
             type="monotone"

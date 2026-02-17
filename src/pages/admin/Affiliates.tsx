@@ -74,7 +74,7 @@ export default function Affiliates() {
                     </span>
                   </td>
                   <td className="p-4 text-sm">{affiliate.conversions}</td>
-                  <td className="p-4 text-sm font-semibold">${affiliate.revenue.toFixed(2)}</td>
+                  <td className="p-4 text-sm font-semibold">&euro;{affiliate.revenue.toFixed(2)}</td>
                   <td className="p-4 text-sm text-muted-foreground">{affiliate.created_at}</td>
                   <td className="p-4">
                     <button
@@ -105,7 +105,7 @@ export default function Affiliates() {
               <div className="flex justify-between"><span className="text-muted-foreground">{t.auth.email[lang]}</span><span>{selectedAffiliate.email}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">{t.admin.tier[lang]}</span><span className="capitalize font-medium">{selectedAffiliate.tier}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">{t.admin.conversions[lang]}</span><span>{selectedAffiliate.conversions}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">{t.admin.revenue[lang]}</span><span className="font-semibold text-accent">${selectedAffiliate.revenue.toFixed(2)}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">{t.admin.revenue[lang]}</span><span className="font-semibold text-accent">&euro;{selectedAffiliate.revenue.toFixed(2)}</span></div>
               <div className="flex justify-between"><span className="text-muted-foreground">{t.admin.joined[lang]}</span><span>{selectedAffiliate.created_at}</span></div>
             </div>
             <button

@@ -34,7 +34,7 @@ export default function AdminDashboard() {
 
   const statsCards = [
     { title: t.admin.totalAffiliates[lang], value: "47", icon: Users, trend: 5.2 },
-    { title: t.admin.totalRevenue[lang], value: "$28,450", icon: DollarSign, trend: 18.7 },
+    { title: t.admin.totalRevenue[lang], value: "\u20AC28,450", icon: DollarSign, trend: 18.7 },
     { title: t.admin.pendingApps[lang], value: "8", icon: FileText, trend: null },
     { title: t.admin.conversionRate[lang], value: "4.2%", icon: TrendingUp, trend: 1.3 },
   ];
@@ -68,14 +68,14 @@ export default function AdminDashboard() {
             <BarChart data={DEMO_CHART_DATA}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(220 15% 88%)" />
               <XAxis dataKey="month" tick={{ fontSize: 12, fill: "hsl(220 10% 46%)" }} />
-              <YAxis tick={{ fontSize: 12, fill: "hsl(220 10% 46%)" }} tickFormatter={(v) => `$${v}`} />
+              <YAxis tick={{ fontSize: 12, fill: "hsl(220 10% 46%)" }} tickFormatter={(v) => `\u20AC${v}`} />
               <Tooltip
                 contentStyle={{
                   backgroundColor: "hsl(0 0% 100%)",
                   border: "1px solid hsl(220 15% 88%)",
                   borderRadius: "0.75rem",
                 }}
-                formatter={(value: number) => [`$${value}`, t.admin.revenue[lang]]}
+                formatter={(value: number) => [`\u20AC${value}`, t.admin.revenue[lang]]}
               />
               <Bar dataKey="revenue" fill="hsl(150 80% 40%)" radius={[6, 6, 0, 0]} />
             </BarChart>
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
                   <p className="text-sm font-semibold truncate">{performer.name}</p>
                   <p className="text-xs text-muted-foreground">{performer.conversions} {t.admin.conversions[lang]}</p>
                 </div>
-                <span className="text-sm font-bold text-accent">${performer.revenue}</span>
+                <span className="text-sm font-bold text-accent">&euro;{performer.revenue}</span>
               </div>
             ))}
           </div>

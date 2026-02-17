@@ -3,12 +3,12 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { Check, X, Filter, DollarSign } from "lucide-react";
 
 const DEMO_COMMISSIONS = [
-  { id: "1", affiliate: "Georgi R.", product: "AI Chatbot", amount: 450.00, rate: 30, tier: "pro", status: "pending", date: "2025-02-05" },
-  { id: "2", affiliate: "Ivan D.", product: "Web Development", amount: 240.00, rate: 20, tier: "starter", status: "pending", date: "2025-02-03" },
-  { id: "3", affiliate: "Maria M.", product: "E-Commerce", amount: 160.00, rate: 20, tier: "starter", status: "approved", date: "2025-01-28" },
-  { id: "4", affiliate: "Georgi R.", product: "CRM System", amount: 195.00, rate: 30, tier: "pro", status: "paid", date: "2025-01-25" },
-  { id: "5", affiliate: "Alex K.", product: "SEO Tools", amount: 64.00, rate: 20, tier: "starter", status: "approved", date: "2025-01-20" },
-  { id: "6", affiliate: "Ivan D.", product: "AI Voice Agent", amount: 300.00, rate: 30, tier: "pro", status: "paid", date: "2025-01-15" },
+  { id: "1", affiliate: "Georgi R.", product: "AI Chatbot", amount: 450.00, rate: 15, tier: "pro", status: "pending", date: "2025-02-05" },
+  { id: "2", affiliate: "Ivan D.", product: "Web Development", amount: 240.00, rate: 10, tier: "starter", status: "pending", date: "2025-02-03" },
+  { id: "3", affiliate: "Maria M.", product: "E-Commerce", amount: 160.00, rate: 10, tier: "starter", status: "approved", date: "2025-01-28" },
+  { id: "4", affiliate: "Georgi R.", product: "CRM System", amount: 195.00, rate: 15, tier: "pro", status: "paid", date: "2025-01-25" },
+  { id: "5", affiliate: "Alex K.", product: "SEO Tools", amount: 64.00, rate: 10, tier: "starter", status: "approved", date: "2025-01-20" },
+  { id: "6", affiliate: "Ivan D.", product: "AI Voice Agent", amount: 300.00, rate: 15, tier: "pro", status: "paid", date: "2025-01-15" },
 ];
 
 const statusStyles = {
@@ -41,7 +41,7 @@ export default function AdminCommissions() {
           <DollarSign className="w-5 h-5 text-yellow-500" />
           <div>
             <p className="text-xs text-muted-foreground">{t.admin.pendingApproval[lang]}</p>
-            <p className="text-lg font-bold">${totalPending.toFixed(2)}</p>
+            <p className="text-lg font-bold">&euro;{totalPending.toFixed(2)}</p>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default function AdminCommissions() {
                 <tr key={commission.id} className="border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors">
                   <td className="p-4 text-sm font-medium">{commission.affiliate}</td>
                   <td className="p-4 text-sm">{commission.product}</td>
-                  <td className="p-4 text-sm font-semibold">${commission.amount.toFixed(2)}</td>
+                  <td className="p-4 text-sm font-semibold">&euro;{commission.amount.toFixed(2)}</td>
                   <td className="p-4 text-sm">{commission.rate}%</td>
                   <td className="p-4 text-sm text-muted-foreground">{commission.date}</td>
                   <td className="p-4">

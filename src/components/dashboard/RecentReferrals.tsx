@@ -68,7 +68,7 @@ export function RecentReferrals({ data }: RecentReferralsProps) {
                 <td className="p-4 text-sm">{referral.customer}</td>
                 <td className="p-4 text-sm">{referral.product}</td>
                 <td className="p-4 text-sm font-semibold">
-                  ${referral.amount.toFixed(2)}
+                  &euro;{referral.amount.toFixed(2)}
                 </td>
                 <td className="p-4 text-sm text-muted-foreground">
                   {referral.date}

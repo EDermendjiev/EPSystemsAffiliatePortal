@@ -4,9 +4,9 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { CreditCard, DollarSign, Clock, CheckCircle, Wallet } from "lucide-react";
 
 const DEMO_PAYOUTS = [
-  { id: "1", amount: 524.00, payment_method: "PayPal", status: "completed", transaction_id: "TXN-2025-001", created_at: "2025-01-15" },
-  { id: "2", amount: 312.00, payment_method: "Bank Transfer", status: "completed", transaction_id: "TXN-2025-002", created_at: "2024-12-15" },
-  { id: "3", amount: 840.00, payment_method: "PayPal", status: "pending", transaction_id: null, created_at: "2025-02-01" },
+  { id: "1", amount: 524.00, payment_method: "SEPA", status: "completed", transaction_id: "TXN-2025-001", created_at: "2025-01-15" },
+  { id: "2", amount: 312.00, payment_method: "Revolut", status: "completed", transaction_id: "TXN-2025-002", created_at: "2024-12-15" },
+  { id: "3", amount: 840.00, payment_method: "EasyPay", status: "pending", transaction_id: null, created_at: "2025-02-01" },
 ];
 
 const statusStyles = {
@@ -18,7 +18,7 @@ const statusStyles = {
 
 export default function Payouts() {
   const { lang, t } = useLanguage();
-  const [paymentMethod, setPaymentMethod] = useState<"paypal" | "bank">("paypal");
+  const [paymentMethod, setPaymentMethod] = useState<"sepa" | "revolut" | "easypay">("sepa");
 
   const totalPaid = DEMO_PAYOUTS
     .filter((p) => p.status === "completed")
@@ -49,7 +49,7 @@ export default function Payouts() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">{t.payouts.totalPaid[lang]}</p>
-              <p className="text-2xl font-bold">${totalPaid.toFixed(2)}</p>
+              <p className="text-2xl font-bold">&euro;{totalPaid.toFixed(2)}</p>
             </div>
           </div>
         </motion.div>
@@ -66,7 +66,7 @@ export default function Payouts() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">{t.payouts.pendingAmount[lang]}</p>
-              <p className="text-2xl font-bold">${pendingAmount.toFixed(2)}</p>
+              <p className="text-2xl font-bold">&euro;{pendingAmount.toFixed(2)}</p>
             </div>
           </div>
         </motion.div>
@@ -83,7 +83,7 @@ export default function Payouts() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">{t.payouts.minThreshold[lang]}</p>
-              <p className="text-2xl font-bold">$50.00</p>
+              <p className="text-2xl font-bold">&euro;50.00</p>
             </div>
           </div>
         </motion.div>
@@ -92,37 +92,54 @@ export default function Payouts() {
       {/* Payment Method */}
       <div className="bg-card rounded-xl border border-border p-6 shadow-card">
         <h3 className="text-lg font-semibold mb-4">{t.payouts.paymentMethod[lang]}</h3>
-        <div className="grid gap-3 md:grid-cols-2">
+        <div className="grid gap-3 md:grid-cols-3">
           <button
-            onClick={() => setPaymentMethod("paypal")}
+            onClick={() => setPaymentMethod("sepa")}
             className={`p-4 rounded-lg border-2 transition-colors text-left ${
-              paymentMethod === "paypal"
+              paymentMethod === "sepa"
                 ? "border-accent bg-accent/5"
                 : "border-border hover:border-muted-foreground"
             }`}
           >
             <div className="flex items-center gap-3">
-              <Wallet className="w-6 h-6 text-blue-500" />
+              <CreditCard className="w-6 h-6 text-blue-500" />
               <div>
-                <p className="font-semibold">PayPal</p>
-                <p className="text-sm text-muted-foreground">{t.payouts.paypalDesc[lang]}</p>
+                <p className="font-semibold">{t.payouts.bankTransfer[lang]}</p>
+                <p className="text-sm text-muted-foreground">{t.payouts.bankDesc[lang]}</p>
               </div>
             </div>
           </button>
 
           <button
-            onClick={() => setPaymentMethod("bank")}
+            onClick={() => setPaymentMethod("revolut")}
             className={`p-4 rounded-lg border-2 transition-colors text-left ${
-              paymentMethod === "bank"
+              paymentMethod === "revolut"
                 ? "border-accent bg-accent/5"
                 : "border-border hover:border-muted-foreground"
             }`}
           >
             <div className="flex items-center gap-3">
-              <CreditCard className="w-6 h-6 text-green-500" />
+              <Wallet className="w-6 h-6 text-purple-500" />
               <div>
-                <p className="font-semibold">{t.payouts.bankTransfer[lang]}</p>
-                <p className="text-sm text-muted-foreground">{t.payouts.bankDesc[lang]}</p>
+                <p className="font-semibold">Revolut</p>
+                <p className="text-sm text-muted-foreground">{t.payouts.revolutDesc[lang]}</p>
+              </div>
+            </div>
+          </button>
+
+          <button
+            onClick={() => setPaymentMethod("easypay")}
+            className={`p-4 rounded-lg border-2 transition-colors text-left ${
+              paymentMethod === "easypay"
+                ? "border-accent bg-accent/5"
+                : "border-border hover:border-muted-foreground"
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <DollarSign className="w-6 h-6 text-green-500" />
+              <div>
+                <p className="font-semibold">EasyPay</p>
+                <p className="text-sm text-muted-foreground">{t.payouts.easypayDesc[lang]}</p>
               </div>
             </div>
           </button>
@@ -149,7 +166,7 @@ export default function Payouts() {
               {DEMO_PAYOUTS.map((payout) => (
                 <tr key={payout.id} className="border-b border-border last:border-b-0 hover:bg-muted/30 transition-colors">
                   <td className="p-4 text-sm">{payout.created_at}</td>
-                  <td className="p-4 text-sm font-semibold">${payout.amount.toFixed(2)}</td>
+                  <td className="p-4 text-sm font-semibold">&euro;{payout.amount.toFixed(2)}</td>
                   <td className="p-4 text-sm">{payout.payment_method}</td>
                   <td className="p-4 text-sm text-muted-foreground">{payout.transaction_id || "—"}</td>
                   <td className="p-4">

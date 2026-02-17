@@ -25,13 +25,13 @@ export default function Dashboard() {
     },
     {
       title: t.dashboard.totalRevenue[lang],
-      value: "$3,420",
+      value: "\u20AC3,420",
       icon: DollarSign,
       trend: 15.3,
     },
     {
       title: t.dashboard.pendingPayout[lang],
-      value: "$840",
+      value: "\u20AC840",
       icon: Clock,
       trend: null,
     },

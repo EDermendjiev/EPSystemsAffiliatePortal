@@ -54,7 +54,7 @@ Bulgarian (`bg`) and English (`en`). `LanguageContext` provides a `t()` function
 
 Key tables: `profiles`, `affiliate_applications`, `referral_links`, `clicks`, `conversions`, `commissions`, `payouts`, `marketing_materials`, `admin_settings`. All tables have Row Level Security policies. A trigger auto-creates a profile on Supabase auth signup.
 
-Commission tiers (configurable in `admin_settings`): Starter 20% (0+ conversions), Pro 30% (5+), Elite 35% (20+).
+Commission tiers (configurable in `admin_settings`): Starter 10% (0–4 referrals), Professional 15% (5+), Elite 20% (15+). Commissions are **one-time** (paid on the referred client's first payment only). Currency is EUR.
 
 ### Component Organization
 

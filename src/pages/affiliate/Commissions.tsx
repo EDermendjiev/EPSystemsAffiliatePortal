@@ -4,13 +4,13 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { Download, Filter, Calendar } from "lucide-react";
 
 const DEMO_COMMISSIONS = [
-  { id: "1", date: "2025-02-05", product: "AI Chatbot", customer: "tech-startup@example.com", amount: 135.00, rate: 30, tier: "pro", status: "approved" },
-  { id: "2", date: "2025-02-03", product: "Web Development", customer: "agency@example.com", amount: 240.00, rate: 20, tier: "starter", status: "pending" },
-  { id: "3", date: "2025-01-28", product: "E-Commerce", customer: "ecom@example.com", amount: 160.00, rate: 20, tier: "starter", status: "paid" },
-  { id: "4", date: "2025-01-25", product: "CRM System", customer: "corp@example.com", amount: 195.00, rate: 30, tier: "pro", status: "approved" },
-  { id: "5", date: "2025-01-20", product: "SEO Tools", customer: "seo-firm@example.com", amount: 64.00, rate: 20, tier: "starter", status: "paid" },
-  { id: "6", date: "2025-01-15", product: "AI Voice Agent", customer: "callcenter@example.com", amount: 300.00, rate: 30, tier: "pro", status: "paid" },
-  { id: "7", date: "2025-01-10", product: "Internal Software", customer: "factory@example.com", amount: 450.00, rate: 30, tier: "pro", status: "rejected" },
+  { id: "1", date: "2025-02-05", product: "AI Chatbot", customer: "tech-startup@example.com", amount: 135.00, rate: 15, tier: "pro", status: "approved" },
+  { id: "2", date: "2025-02-03", product: "Web Development", customer: "agency@example.com", amount: 240.00, rate: 10, tier: "starter", status: "pending" },
+  { id: "3", date: "2025-01-28", product: "E-Commerce", customer: "ecom@example.com", amount: 160.00, rate: 10, tier: "starter", status: "paid" },
+  { id: "4", date: "2025-01-25", product: "CRM System", customer: "corp@example.com", amount: 195.00, rate: 15, tier: "pro", status: "approved" },
+  { id: "5", date: "2025-01-20", product: "SEO Tools", customer: "seo-firm@example.com", amount: 64.00, rate: 10, tier: "starter", status: "paid" },
+  { id: "6", date: "2025-01-15", product: "AI Voice Agent", customer: "callcenter@example.com", amount: 300.00, rate: 15, tier: "pro", status: "paid" },
+  { id: "7", date: "2025-01-10", product: "Internal Software", customer: "factory@example.com", amount: 450.00, rate: 15, tier: "pro", status: "rejected" },
 ];
 
 const statusStyles = {
@@ -70,7 +70,7 @@ export default function Commissions() {
         className="bg-card rounded-xl border border-border p-6 shadow-card"
       >
         <p className="text-sm text-muted-foreground">{t.commissions.totalEarned[lang]}</p>
-        <p className="text-4xl font-bold text-accent mt-1">${totalApproved.toFixed(2)}</p>
+        <p className="text-4xl font-bold text-accent mt-1">&euro;{totalApproved.toFixed(2)}</p>
       </motion.div>
 
       {/* Filters */}
@@ -111,7 +111,7 @@ export default function Commissions() {
                   <td className="p-4 text-sm">{commission.date}</td>
                   <td className="p-4 text-sm">{commission.product}</td>
                   <td className="p-4 text-sm text-muted-foreground">{commission.customer}</td>
-                  <td className="p-4 text-sm font-semibold">${commission.amount.toFixed(2)}</td>
+                  <td className="p-4 text-sm font-semibold">&euro;{commission.amount.toFixed(2)}</td>
                   <td className="p-4 text-sm">{commission.rate}%</td>
                   <td className="p-4">
                     <span className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium border ${statusStyles[commission.status as keyof typeof statusStyles]}`}>
